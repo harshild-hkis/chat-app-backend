@@ -58,6 +58,7 @@ const getApiAndEmit = (
 
   socket.on("on_left_room", (userName) => {
     inRoom = inRoom.filter((name) => name !== userName);
+    console.log("Coming for leave event", inRoom, userName)
     io.emit("update_join_array", inRoom);
   });
 };
