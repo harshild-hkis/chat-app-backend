@@ -40,6 +40,13 @@ const getApiAndEmit = (
       }
     } catch (error) {}
   });
+  socket.on("start_typing", (payload) => {
+    io.emit(`started_typing_${payload.from}_${payload.to}`);
+  });
+
+  socket.on("end_typing", (payload) => {
+    io.emit(`ended_typing_${payload.from}_${payload.to}`);
+  });
 };
 
 io.on("connect", (socket) => {
