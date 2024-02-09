@@ -51,7 +51,8 @@ const getApiAndEmit = (
   });
 
   socket.on("on_join_room", (userName) => {
-    if (!inRoom.find((item) => item === userName)) inRoom.push(userName);
+    if (userName && !inRoom.find((item) => item === userName))
+      inRoom.push(userName);
     io.emit("update_join_array", inRoom);
   });
 
