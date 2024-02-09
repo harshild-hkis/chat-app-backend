@@ -19,6 +19,8 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 connect();
 
+let inRoom: string[] = [];
+
 const getApiAndEmit = (
   socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ) => {
@@ -46,6 +48,16 @@ const getApiAndEmit = (
 
   socket.on("end_typing", (payload) => {
     io.emit(`ended_typing_${payload.from}_${payload.to}`);
+  });
+
+  socket.on("on_join_room", (userName) => {
+    if (!inRoom.find((item) => item === userName)) inRoom.push(userName);
+    io.emit("update_join_array", inRoom);
+  });
+
+  socket.on("on_left_room", (userName) => {
+    inRoom = inRoom.filter((name) => name !== userName);
+    io.emit("update_join_array", inRoom);
   });
 };
 
